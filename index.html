@@ -1,19 +1,28 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Hello World!</title>
-  </head>
-  <body>
-    <h1>Hello World!</h1>
-    <!-- All of the Node.js APIs are available in this renderer process. -->
-    We are using Node.js <script>document.write(process.versions.node)</script>,
-    Chromium <script>document.write(process.versions.chrome)</script>,
-    and Electron <script>document.write(process.versions.electron)</script>.
-
-    <script>
-      // You can also require other files to run in this process
-      require('./renderer.js')
-    </script>
-  </body>
+	<head>
+		<meta charset="UTF-8" />
+	</head>
+	<body>
+		<style>
+			webview {
+				border: 1px solid black;
+			}
+		</style>
+		<webview nodeIntegration="true" id="child1" src="child1.html"></webview>
+		<webview nodeIntegration="true" id="child2" src="child2.html"></webview>
+		<script>
+			const child1 = document.getElementById("child1")
+			const child2 = document.getElementById("child2")
+			child1.addEventListener("ipc-message", event => {
+				if (event.channel === "enter") {
+					// Pressing enter should send the value to child1 and focus on that input.
+					console.log("enter", event.args[0])
+					child2.focus()
+					child2.getWebContents().send("enter", event.args[0])
+				}
+			})
+			console.log("hello")
+		</script>
+	</body>
 </html>

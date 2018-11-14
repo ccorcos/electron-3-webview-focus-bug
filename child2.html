@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+	</head>
+	<body>
+		<style>
+			input {
+				width: 300px;
+			}
+		</style>
+		<div>child2.html</div>
+		<div><input placeholder="Text should end up here and focused" /></div>
+		<script>
+			console.log("child2.html")
+			const electron = require("electron")
+			const input = document.querySelector("input")
+			electron.ipcRenderer.on("enter", function(event, value) {
+				console.log("enter", value)
+				input.value = value
+				input.focus()
+			})
+		</script>
+	</body>
+</html>

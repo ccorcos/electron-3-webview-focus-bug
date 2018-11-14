@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+	</head>
+	<body>
+		<style>
+			input {
+				width: 300px;
+			}
+		</style>
+		<div>child1.html</div>
+		<div><input placeholder="Type something and press enter" /></div>
+		<script>
+			console.log("child1.html")
+			const electron = require("electron")
+			const input = document.querySelector("input")
+			input.addEventListener("keypress", e => {
+				if (e.key === "Enter") {
+					// Pressing enter will clear the value and end it to the index.html file.
+					console.log("enter", input.value)
+					electron.ipcRenderer.sendToHost("enter", input.value)
+					input.value = ""
+				}
+			})
+		</script>
+	</body>
+</html>
